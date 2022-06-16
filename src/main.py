@@ -2,7 +2,6 @@ import eel
 eel.init('web', allowed_extensions=['.js', '.html'])
 eel.start('index.html',
                         size=(800,600), 
-                        position=(0,0), 
                         )
 
 from pdfrw import PdfReader, PdfWriter

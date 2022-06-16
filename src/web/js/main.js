@@ -20,16 +20,17 @@ const loadPdf = async () => {
 	const data = await Promise.all(promises);
 	console.log(data);
 	data.forEach((page) =>{
-		renderPage(page);
+		addToGallery(page);
 	})
 	 
 };
 
-const renderPage = (page) => {
+const addToGallery = (page) => {
 	let canvas = document.createElement('canvas');
-	document.body.appendChild(canvas);
-	var desiredWidth = 100;
-
+	let gallery = document.getElementById("gallery")
+	gallery.appendChild(canvas);
+	
+	var desiredWidth = 108;
 	var viewport = page.getViewport({ scale: 1, });
 	var scale = desiredWidth / viewport.width;
 	var scaledViewport = page.getViewport({ scale: scale, });
