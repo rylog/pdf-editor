@@ -1,4 +1,10 @@
-@import "_colors.scss";
+@import "_colors";
+@import "_gallery";
 
 
-$font-stack: Montserrat, 
+$font-stack: Montserrat, Trebuchet MS, Helvetica, sans-serif;
+body {
+	font: 100% $font-stack;
+	color: $primary-red;
+	background-color: $primary-light;
+}

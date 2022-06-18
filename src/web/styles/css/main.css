@@ -1,0 +1,16 @@
+.canvas-container {
+  display: inline-block;
+}
+
+canvas {
+  cursor: move;
+  border-radius: 4px;
+  border-collapse: separate;
+  margin: 8px;
+}
+
+body {
+  font: 100% Montserrat, Trebuchet MS, Helvetica, sans-serif;
+  color: #f44336;
+  background-color: #f2f1f7;
+}

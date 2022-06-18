@@ -1,0 +1,16 @@
+@import "_colors";
+
+#gallery{
+}
+
+.canvas-container{
+	display: inline-block;
+	
+}
+
+canvas{
+	cursor: move;
+	border-radius: 4px;
+	border-collapse: separate; 
+	margin: 8px;
+}

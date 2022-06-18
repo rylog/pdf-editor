@@ -1,4 +1,5 @@
-const url = '../../Transcript_RyanLo_FR.pdf';
+import { addPageToGallery } from "./modules/gallery.js"; 
+const url = '../../1A_structure.pdf';
 
 let pdfDoc = null,
 nPages = 0,
@@ -18,34 +19,14 @@ const loadPdf = async () => {
 		console.log(pdfDoc.getPage(1));
 	}
 	const data = await Promise.all(promises);
-	console.log(data);
+	let i = 0;
 	data.forEach((page) =>{
-		addToGallery(page);
+		addPageToGallery(page);
 	})
 	 
 };
 
-const addToGallery = (page) => {
-	let canvas = document.createElement('canvas');
-	let gallery = document.getElementById("gallery")
-	gallery.appendChild(canvas);
-	
-	var desiredWidth = 108;
-	var viewport = page.getViewport({ scale: 1, });
-	var scale = desiredWidth / viewport.width;
-	var scaledViewport = page.getViewport({ scale: scale, });
-	canvas.height = scaledViewport.height;
-	canvas.width = scaledViewport.width;
-	let ctx = canvas.getContext('2d')
-	
-	
-	const renderCtx = {
-		canvasContext: ctx,
-		viewport : scaledViewport,
-	}
-	page.render(renderCtx);
 
-}
 
 
 
