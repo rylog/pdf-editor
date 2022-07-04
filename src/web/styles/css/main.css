@@ -8,11 +8,12 @@
   display: flex;
   transition: 300ms ease all;
   padding: 5px;
-  z-index: 1;
+  z-index: 2;
 }
 
 .selected {
- z-index: 0;
+  z-index: 0;
+  visibility: hidden;
 }
 
 canvas {

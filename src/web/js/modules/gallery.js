@@ -10,6 +10,9 @@ function createTile(page) {
   canvasContainer.className = "canvas-container";
   canvasContainer.appendChild(canvas);
   canvasContainer.setAttribute("draggable", true);
+  let dropZone = document.createElement("div");
+  dropZone.className = "dropZone"
+  dropZone.ondragenter = (e) => onDragEnter(e);
   applyDragBehaviorToElement(canvasContainer);
 
   //adjust scaling
@@ -30,6 +33,8 @@ function createTile(page) {
 
   let tile = document.createElement("div");
   tile.appendChild(canvasContainer);
+  tile.appendChild(dropZone);
+  tile.className = "tile";
   return tile;
 }
 
@@ -51,17 +56,28 @@ function convertDataToTiles(data) {
 function applyDragBehaviorToElement(elem) {
   //apply drag behavior
   elem.ondragstart = (e) => onDragStart(e);
-  elem.ondragenter = (e) => onDragEnter(e);
   elem.ondragover = (e) => onDragOver(e);
-  elem.ondragend = (e) => changePositions(dragStartIndex, dragEndIndex);
+  elem.ondragend = (e) => onDragEnd(e);
 }
 
 function onDragStart(e) {
   dragStartIndex = e.target.parentElement.getAttribute("data-index");
   source = e.target;
   source.className = "selected canvas-container"
+  document.querySelectorAll(".canvas-container").forEach(canvasContainer => {
+    if(canvasContainer != source){
+      canvasContainer.style.pointerEvents = "none";
+    }
+  })
 }
-
+function onDragEnd(){
+  document.querySelectorAll(".canvas-container").forEach(canvasContainer => {
+    if(canvasContainer != source){
+      canvasContainer.style.pointerEvents = "auto";
+    }
+  })
+  changePositions(dragStartIndex, dragEndIndex);
+}
 function onDragEnter(e) {
   e.preventDefault();
   dragEndIndex = parseInt(e.currentTarget.parentElement.getAttribute("data-index"));
