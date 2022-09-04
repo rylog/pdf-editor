@@ -1,11 +1,12 @@
-import { convertDataToTiles } from "./modules/gallery.js";
+import { convertDataToTiles } from "./gallery/gallery.js";
 const url = "../../1A_structure.pdf";
+const url2 = "../../1903724 Ryan Lo Examen INF8405.pdf"
 
 let pdfDoc = null,
   nPages = 0,
   pdfIsRendering = false;
 
-pdfjsLib.getDocument(url).promise.then((pdfDoc_) => {
+pdfjsLib.getDocument(url2).promise.then((pdfDoc_) => {
   pdfDoc = pdfDoc_;
   nPages = pdfDoc.numPages;
   loadPdf();
