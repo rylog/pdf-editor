@@ -3,7 +3,7 @@
   flex-wrap: wrap;
 }
 
-.canvas-container {
+.content-container {
   position: relative;
   display: flex;
   transition: 200ms linear;

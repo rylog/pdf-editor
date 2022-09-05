@@ -1,4 +1,5 @@
-import { convertDataToTiles } from "./gallery/gallery.js";
+import Gallery  from "./gallery/gallery.js";
+
 const url = "../../1A_structure.pdf";
 const url2 = "../../1903724 Ryan Lo Examen INF8405.pdf"
 
@@ -15,10 +16,11 @@ pdfjsLib.getDocument(url2).promise.then((pdfDoc_) => {
 //render the PDF
 async function loadPdf() {
   let promises = [];
+  let gallery = new Gallery('gallery');
   for (let i = 0; i < nPages; i++) {
     promises.push(pdfDoc.getPage(i + 1));
     console.log(pdfDoc.getPage(1));
   }
   const data = await Promise.all(promises);
-  convertDataToTiles(data);
+  gallery.loadPdf(data);
 }
