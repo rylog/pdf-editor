@@ -1,26 +1,44 @@
 import Gallery  from "./gallery/gallery.js";
 
-const url = "../../1A_structure.pdf";
+const url1 = "../../1A_structure.pdf";
 const url2 = "../../1903724 Ryan Lo Examen INF8405.pdf"
 
 let pdfDoc = null,
   nPages = 0,
   pdfIsRendering = false;
 
-pdfjsLib.getDocument(url2).promise.then((pdfDoc_) => {
-  pdfDoc = pdfDoc_;
-  nPages = pdfDoc.numPages;
-  loadPdf();
-});
+let gallery = new Gallery('gallery');
 
-//render the PDF
-async function loadPdf() {
-  let promises = [];
-  let gallery = new Gallery('gallery');
-  for (let i = 0; i < nPages; i++) {
-    promises.push(pdfDoc.getPage(i + 1));
-    console.log(pdfDoc.getPage(1));
+loadPdfs([url1, url2]);
+
+async function loadPdfs(urlList){
+  for(let url of urlList){
+    await loadPdf(url);
   }
-  const data = await Promise.all(promises);
-  gallery.loadPdf(data);
+}
+
+async function loadPdf(url){
+  return new Promise(async (resolve, reject)=>{
+    try{
+      const loadingTask = pdfjsLib.getDocument(url);
+      const pdfDoc = await loadingTask.promise;
+      const pdf = {
+        url :url,
+        pages: await loadPdfPages(pdfDoc)
+      }
+      gallery.addPdf(pdf);
+      resolve();
+    }
+    catch(e){
+      reject();
+    }
+  })
+}
+
+async function loadPdfPages(pdf) {
+  let promises = [];
+  for (let i = 0; i < pdf.numPages; i++) {  
+    promises.push(pdf.getPage(i + 1));
+  }
+  return Promise.all(promises);
 }

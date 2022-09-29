@@ -8,11 +8,17 @@
 .content-container{
 	position: relative;
 	display: flex;
-	transition: 200ms linear;
-	padding: 5px;
+	box-sizing: border-box;
+	margin: 5px;
+	border-radius: 5px;
+	overflow: hidden;
+	transition: transform 200ms linear, z-index 100ms, visibility 100ms ;
 	z-index: 2;
-	
+	box-shadow: 0 2px 1px -1px #0003, 0 1px 1px #00000024, 0 1px 3px #0000001f;
 }
+
+
+
 .selected {
 	z-index: 0;
 	visibility: hidden;
@@ -20,7 +26,7 @@
 
 canvas{
 	cursor: move;
-	border-radius: 4px;
+
 	border-collapse: separate; 
 }
 
@@ -33,7 +39,12 @@ canvas{
 }
 
 .tile{
-	height: 165px;
-	width: 130px;
+	height: 212px;
+	width: 165px;
+	display: flex;
 	position: relative;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-end;
 }
+

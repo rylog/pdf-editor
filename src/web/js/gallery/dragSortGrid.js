@@ -1,10 +1,7 @@
-import Tile from "./tile.js";
-
 export default class DragSortGrid {
   constructor(selector) {
     this.dom = document.querySelector(selector);
     this.dom.addEventListener("dragEvent", (e) => {
-      console.log(e.detail);
       switch(e.detail.eventType){
         case "dragStart":
           this.dragStartIndex = e.detail.index;
@@ -21,14 +18,13 @@ export default class DragSortGrid {
     this.tiles = [];
   }
 
-  addTiles(itemList) {
+  addTiles(tiles){
     let fragment = document.createDocumentFragment();
-    itemList.forEach((item) => {
-      let tile = new Tile(item);
+    tiles.forEach((tile) => {
+      tile.updateIndex(this.tiles.length)
       this.tiles.push(tile);
       fragment.appendChild(tile.dom);
     });
-
     this.dom.appendChild(fragment);
   }
 
@@ -37,18 +33,19 @@ export default class DragSortGrid {
     let temp = this.tiles.splice(fromIndex, 1);
     this.tiles.splice(toIndex, 0, temp[0]);
     let fragment = document.createDocumentFragment();
+    let index = 0;
     this.tiles.forEach((tile) => {
+      tile.updateIndex(index++);
       tile.dom.firstChild.style.transform = "";
       fragment.appendChild(tile.dom);
     });
     gallery.replaceChildren(fragment);
+    console.log(this.tiles)
   }
 
   animateDragEnter(fromIndex, toIndex) {
-    console.log("changing");
-    //shift all tile positions according to dragStart and dragEnter positions
     this.tiles.forEach((tile) => {
-      let index = tile.getTileIndex(tile.dom);
+      let index = tile.index;
       let width = document
         .getElementById("gallery")
         .getBoundingClientRect().width;

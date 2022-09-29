@@ -1,11 +1,11 @@
 export default class Tile {
   constructor(content) {
     this.dom = this.createTile(content);
+    this.index = 0;
   }
 
   createTile(content) {
     let contentContainer = this.createContentContainer();
-    let dropZone = this.createDropZone();
     this.applyDragBehaviorToElement(contentContainer);
 
     let tile = document.createElement("div");
@@ -13,7 +13,8 @@ export default class Tile {
 
     contentContainer.appendChild(content);
     tile.appendChild(contentContainer);
-    tile.appendChild(dropZone);
+    tile.appendChild(this.createDropZone());
+    tile.appendChild(this.createFooter());
 
     return tile;
   }
@@ -29,7 +30,20 @@ export default class Tile {
     let dropZone = document.createElement("div");
     dropZone.className = "dropZone";
     dropZone.ondragenter = (e) => this.onDragEnter(e);
+    dropZone.addEventListener("dragover", (e) => this.onDragOver(e));
     return dropZone;
+  }
+
+  createFooter(){
+    let footer = document.createElement("div");
+    this.indexTextNode = document.createTextNode(this.index);
+    footer.appendChild(this.indexTextNode);
+    return footer;
+  }
+
+  updateIndex(index){
+    this.index = index;
+    this.indexTextNode.nodeValue = index;
   }
 
   applyDragBehaviorToElement(elem) {
@@ -37,8 +51,6 @@ export default class Tile {
     elem.ondragstart = (e) => this.onDragStart(e);
     elem.ondragover = (e) => this.onDragOver(e);
     elem.ondragend = (e) => this.onDragEnd(e);
-    elem.addEventListener("drop", (e) => this.onDragDrop(e));
-    elem.addEventListener("dragover", (e) => this.onDragOver(e));
   }
 
   onDragStart(e) {
@@ -51,7 +63,7 @@ export default class Tile {
           contentContainer.style.pointerEvents = "none";
         }
       });
-		this.dispatchDragEvent("dragStart", this.getTileIndex(this.dom))
+		this.dispatchDragEvent("dragStart", this.index)
   }
 
   onDragEnd() {
@@ -68,24 +80,13 @@ export default class Tile {
 
   onDragEnter(e) {
     e.preventDefault();
-		this.dispatchDragEvent("dragEnter", this.getTileIndex(this.dom))
+		this.dispatchDragEvent("dragEnter", this.index)
   }
 
   onDragOver(e) {
     e.preventDefault();
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.dropEffect = "copy";
-  }
-
-  onDragDrop(e) {
-		console.log("drop")
-    //e.preventDefault();
-    let dropZone = e.currentTarget;
-    this.dragEndIndex = this.getTileIndex(dropZone);
-  }
-
-  getTileIndex(tile) {
-    return [...tile.parentElement.children].indexOf(tile);
   }
 
   dispatchDragEvent(eventType, index = null) {

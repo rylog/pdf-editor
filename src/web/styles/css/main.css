@@ -6,9 +6,13 @@
 .content-container {
   position: relative;
   display: flex;
-  transition: 200ms linear;
-  padding: 5px;
+  box-sizing: border-box;
+  margin: 5px;
+  border-radius: 5px;
+  overflow: hidden;
+  transition: transform 200ms linear, z-index 100ms, visibility 100ms;
   z-index: 2;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(0, 0, 0, 0.1411764706), 0 1px 3px rgba(0, 0, 0, 0.1215686275);
 }
 
 .selected {
@@ -18,7 +22,6 @@
 
 canvas {
   cursor: move;
-  border-radius: 4px;
   border-collapse: separate;
 }
 
@@ -31,14 +34,18 @@ canvas {
 }
 
 .tile {
-  height: 165px;
-  width: 130px;
+  height: 212px;
+  width: 165px;
+  display: flex;
   position: relative;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 body {
   font: 100% Montserrat, Trebuchet MS, Helvetica, sans-serif;
-  color: #f44336;
+  color: #000000;
   background-color: #f2f1f7;
   margin: 10px;
 }
