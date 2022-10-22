@@ -1,44 +1,70 @@
-import Gallery  from "./gallery/gallery.js";
+import Gallery from "./gallery/gallery.js";
 
-const url1 = "../../1A_structure.pdf";
-const url2 = "../../1903724 Ryan Lo Examen INF8405.pdf"
+let fileInput = document.getElementById("file-input");
 
-let pdfDoc = null,
-  nPages = 0,
-  pdfIsRendering = false;
+document.getElementById("save-button").addEventListener("click", savePdf);
+fileInput.onchange = (event) => {
+  loadFiles(event.target.files);
+};
 
-let gallery = new Gallery('gallery');
+let gallery = new Gallery("gallery");
 
-loadPdfs([url1, url2]);
-
-async function loadPdfs(urlList){
-  for(let url of urlList){
-    await loadPdf(url);
-  }
+function loadFiles(files) {
+  let readers = [];
+  //Read all inputs
+  Array.from(files).forEach((file) => {
+    readers.push(readFileAsArrayBuffer(file));
+  });
+  //Await all results and load each document
+  Promise.all(readers).then((readResults) =>{
+    readResults.forEach(result => loadDocument(new Uint8Array(result)));
+  });
 }
 
-async function loadPdf(url){
-  return new Promise(async (resolve, reject)=>{
-    try{
-      const loadingTask = pdfjsLib.getDocument(url);
+function savePdf() {
+  let payload = gallery.buildSavePayload();
+  console.log(payload);
+  eel.savePdf(payload);
+}
+
+
+async function loadDocument(arrayBuffer) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let id = await eel.saveArrayBuffer(Array.from(arrayBuffer))();
+      console.log(id);
+      const loadingTask = pdfjsLib.getDocument(arrayBuffer);
       const pdfDoc = await loadingTask.promise;
       const pdf = {
-        url :url,
-        pages: await loadPdfPages(pdfDoc)
+        pdfId : id,
+        pages: await loadPages(pdfDoc),
       }
       gallery.addPdf(pdf);
       resolve();
+    } catch (e) {
+      reject(e);
     }
-    catch(e){
-      reject();
-    }
-  })
+  });
 }
 
-async function loadPdfPages(pdf) {
+async function loadPages(pdf) {
   let promises = [];
-  for (let i = 0; i < pdf.numPages; i++) {  
+  for (let i = 0; i < pdf.numPages; i++) {
     promises.push(pdf.getPage(i + 1));
   }
   return Promise.all(promises);
+}
+
+function readFileAsArrayBuffer(file){
+  return new Promise((resolve, reject)=>{
+    let filereader = new FileReader();
+    
+    filereader.onload = () => {
+      resolve(filereader.result);
+    };
+
+    filereader.onerror = () => reject(filereader);
+
+    filereader.readAsArrayBuffer(file);
+  })
 }

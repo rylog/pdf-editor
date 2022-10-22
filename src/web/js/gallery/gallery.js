@@ -14,7 +14,11 @@ export default class Gallery {
 			let canvas = document.createElement('canvas');
 			this.renderPageOnCanvas(page, canvas);
       let tile = new Tile(canvas);
-      tile.url = pdf.url;
+      console.log(page)
+      tile.pdfInfo = {
+        id: pdf.pdfId,
+        originalPageIndex: page._pageIndex
+      }
       tiles.push(tile);
     });
     this.grid.addTiles(tiles);
@@ -40,5 +44,13 @@ export default class Gallery {
       viewport: scaledViewport,
     };
     page.render(renderCtx);
+  }
+
+  buildSavePayload(){
+    let payload = [];
+    this.grid.tiles.forEach(tile =>{
+      payload.push(tile.pdfInfo);
+    })
+    return payload;
   }
 }
