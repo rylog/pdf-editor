@@ -1,3 +1,7 @@
+@font-face {
+  font-family: "Montserrat";
+  src: url(../../fonts/Montserrat/Montserrat-VariableFont_wght.ttf) format("truetype");
+}
 #gallery {
   display: flex;
   flex-wrap: wrap;
@@ -43,9 +47,111 @@ canvas {
   justify-content: flex-end;
 }
 
-body {
-  font: 100% Montserrat, Trebuchet MS, Helvetica, sans-serif;
-  color: #000000;
-  background-color: #f2f1f7;
-  margin: 10px;
+html, body {
+  font-family: "Montserrat";
+  color: #272727;
+  background-color: #f5f9fd;
+  height: 100%;
+  margin: 0px;
+}
+
+p {
+  margin: 8px;
+  font-size: 18px;
+}
+
+h1 {
+  margin: 8px;
+  font-size: 36px;
+  font-weight: 500;
+}
+
+.lined {
+  display: flex;
+  margin: 4px;
+  flex-direction: row;
+  width: 100%;
+  color: #d2d5dc;
+}
+
+.lined:before, .lined::after {
+  content: "";
+  flex: 1 1;
+  border-bottom: 1px solid #d2d5dc;
+  margin: auto 12px auto 12px;
+}
+
+.small {
+  font-size: 16px;
+}
+
+.content-wrapper {
+  display: flex;
+  height: 100%;
+  box-sizing: border-box;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#file-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: min(700px, 100%);
+  width: min(1040px, 100%);
+  margin: auto;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #ffffff;
+}
+
+.folder {
+  height: 100px;
+  width: 100px;
+  margin-top: 24px;
+}
+
+.icon {
+  fill: #428dfd;
+}
+
+#file-input {
+  visibility: hidden;
+}
+
+#browse {
+  width: 164px;
+  margin-top: 16px;
+  font-size: 16px;
+  color: #ffffff;
+}
+
+#save-button {
+  display: none;
+}
+
+.raised-button {
+  border: none;
+  border-radius: 4px;
+  padding: 8px;
+  background-color: #428dfd;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.1411764706), 0 1px 5px rgba(0, 0, 0, 0.1215686275);
+  font-family: "Montserrat";
+  cursor: pointer;
+}
+
+.ripple {
+  background-position: center;
+  transition: background 0.5s;
+}
+
+.ripple:active {
+  background-color: #82baff;
+  background-size: 100%;
+  transition: background 0s;
 }

@@ -6,15 +6,27 @@
     <script type="text/javascript" src="/eel.js"></script>
 	<script src="js/lib/pdfjs-2.14.305-dist/build/pdf.js"></script>
 	<script type="module" src="js/main.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="shortcut icon" type="image/x-icon" href="img/logo.svg">
   </head>
 
   <body>
 	<!-- <object data="img/logo.png"></object> -->
-	<input type="file" id = "file-input" multiple onclick="this.value=null;">
-	<div id = "gallery"></div>
-	<button id = "save-button">
-		press me
-	</button>
+	<div class = "content-wrapper">
+		<div id = "file-upload">
+			<svg class = "folder" viewBox = "0 0 48 48">
+				<use class = "icon" href = "icons/folderIcon.svg#folder-icon"  />
+			</svg>
+			<h1>Drag your PDF files here</h1>
+			<p class = "lined small">OR</p>
+			<button class ="raised-button ripple" id = "browse">Browse files</button>
+			<input type="file" id = "file-input" multiple onclick="this.value=null;">
+		</div>
+		<div id = "gallery"></div>
+		<button id = "save-button">
+			press me
+		</button>
+	</div>
+
   </body>
 </html>
