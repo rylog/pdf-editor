@@ -1,26 +1,35 @@
 import PdfReader from "./fileLoader/fileLoader.js";
 import Gallery from "./gallery/gallery.js";
 
-let fileInput = document.getElementById("file-input");
-let fileUpload = document.getElementById("file-upload")
-let saveButton = document.getElementById("save-button")
+let view = {
+  fileInput : document.getElementById("file-input"),
+  main : document.getElementById("main"),
+  gallery : document.getElementById("gallery"),
+  browse: document.getElementById("browse"),
+  saveButton: document.getElementById("save-button")
+}
 
-document.getElementById("browse").addEventListener("click", browseFiles);
-document.getElementById("save-button").addEventListener("click", savePdf);
+let isGalleryView = false;
 
-fileInput.onchange = (event) => {
-  if(fileUpload.style.display != "flex"){
-    fileUpload.style.display = "none"
-  }
+view.browse.addEventListener("click", browseFiles);
+view.saveButton.addEventListener("click", savePdf);
+
+view.fileInput.onchange = (event) => {
+  if(!isGalleryView)
+    swapMainView();
   loadFiles(event.target.files);
 };
 
 let gallery = new Gallery("gallery");
 let pdfReader = new PdfReader();
 
+function swapMainView(){
+  view.main.style.display = view.main.style.display == "none" ? "flex" : "none";
+  view.gallery.style.display = view.gallery.style.display == "none" ? "flex" : "none"
+}
 
 function browseFiles(){
-  fileInput.click();
+  view.fileInput.click();
 }
 
 async function loadFiles(files) {

@@ -41,7 +41,7 @@ h1{
 	font-size: 16px;
 }
 
-.content-wrapper {
+#main {
 	display: flex;
 	height: 100%;
 	box-sizing: border-box;
@@ -87,10 +87,6 @@ h1{
 	margin-top: 16px;
 	font-size: 16px;
 	color: #ffffff
-}
-
-#save-button{
-	display: none;
 }
 
 .raised-button{
