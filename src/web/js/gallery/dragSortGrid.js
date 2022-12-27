@@ -1,6 +1,11 @@
 export default class DragSortGrid {
   constructor(selector) {
     this.dom = document.querySelector(selector);
+    this.tiles = [];
+    this.init();
+  }
+
+  init(){
     this.dom.addEventListener("dragEvent", (e) => {
       switch(e.detail.eventType){
         case "dragStart":
@@ -15,7 +20,14 @@ export default class DragSortGrid {
           break;
       }
     });
-    this.tiles = [];
+
+    this.dom.addEventListener("actionEvent", (e) => {
+      switch(e.detail.eventType){
+        case "removeTile":
+          this.removeTile(e.detail.index)
+          break;
+      }
+    })
   }
 
   addTiles(tiles){
@@ -28,8 +40,16 @@ export default class DragSortGrid {
     this.dom.appendChild(fragment);
   }
 
+  removeTile(index){
+    let tile = this.tiles.splice(index, 1)[0];
+    tile.dispose();
+    let footerIndex = 0;
+    this.tiles.forEach((tile) => {
+      tile.updateIndex(footerIndex++);
+    })
+  }
+
   changePositions(fromIndex, toIndex) {
-  
     let temp = this.tiles.splice(fromIndex, 1);
     this.tiles.splice(toIndex, 0, temp[0]);
     let fragment = document.createDocumentFragment();
@@ -40,7 +60,6 @@ export default class DragSortGrid {
       fragment.appendChild(tile.dom);
     });
     gallery.replaceChildren(fragment);
-    console.log(this.tiles)
   }
 
   animateDragEnter(fromIndex, toIndex) {

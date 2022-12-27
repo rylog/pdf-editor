@@ -18,7 +18,7 @@
     <div id="main">
       <div id="file-upload">
         <svg class="folder" viewBox="0 0 48 48">
-          <use class="icon" href="icons/folderIcon.svg#folder-icon" />
+          <use class="icon" href="icons/folder.svg#folder-icon" />
         </svg>
         <h1>Drag your PDF files here</h1>
         <p class="lined small">OR</p>
@@ -32,8 +32,23 @@
       </div>
     </div>
 
-    <div id="gallery" style="display: none">
-      <button id="save-button">press me</button>
-		</div>
+    <div id="editor" style="display: none">
+      <div id="action-bar">
+        <h3>Rearrange PDF</h3>
+
+        <div id="action-icons">
+          <svg id="download" class="action-icon" viewBox="0 0 48 48">
+            <use class="icon" href="icons/download.svg#download-icon" />
+          </svg>
+
+          <svg id="add" class="action-icon" viewBox="0 0 48 48">
+            <use class="icon" href="icons/add.svg#add-icon" />
+          </svg>
+        </div>
+      </div>
+
+      <div id="gallery"></div>
+    </div>
+  
   </body>
 </html>

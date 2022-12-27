@@ -1,8 +1,8 @@
-from csv import reader
 from pdfrw import PdfReader, PdfWriter
 import eel
-import io
+from io import BytesIO
 import uuid
+import base64
 
 arrayBuffers = {}
 
@@ -13,11 +13,17 @@ def savePdf(pdfInfos):
     output_file = "pls.pdf"
 
     for pdfInfo in pdfInfos:
-        reader_input = PdfReader(io.BytesIO(arrayBuffers[pdfInfo["id"]]))
+        reader_input = PdfReader(BytesIO(arrayBuffers[pdfInfo["id"]]))
         pageToAdd = reader_input.pages[pdfInfo["originalPageIndex"]]
         writer_output.addpage(pageToAdd)
 # Write the modified content to disk
+    bytes_stream = BytesIO()
+    bytes_stream.seek(0)
+    writer_output.write(bytes_stream)
+    data = base64.b64encode(bytes_stream.getbuffer()).decode("utf-8")
     writer_output.write(output_file)
+    return data
+
 #reader_input = PdfReader(pdfPages)
 
 @eel.expose 

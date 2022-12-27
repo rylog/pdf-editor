@@ -12,11 +12,16 @@ export default class Tile {
     tile.className = "tile";
 
     contentContainer.appendChild(content);
+    contentContainer.appendChild(this.createActions())
     tile.appendChild(contentContainer);
     tile.appendChild(this.createDropZone());
     tile.appendChild(this.createFooter());
 
     return tile;
+  }
+
+  dispose(){
+    this.dom.parentNode.removeChild(this.dom); 
   }
 
   createContentContainer() {
@@ -41,21 +46,49 @@ export default class Tile {
     return footer;
   }
 
+  createActions(){
+    this.actions = document.createElement("div");
+    this.actions.className = "actions";
+    this.actions.appendChild(this.createAction("remove"));
+    return this.actions;
+  }
+
+	createAction(actionType) {
+		const action = document.createElement("div")
+		action.innerHTML += 
+		`
+      <div class = ${actionType}>
+        <svg id= tile-${actionType} class="action-icon" viewBox="0 0 48 48">
+          <use class="icon" href="icons/${actionType}.svg#${actionType}-icon" />
+        </svg>
+      <div>
+    `;
+    action.addEventListener("click", () => this.dispatchActionEvent(`${actionType}Tile`, this.index))
+    return action;
+	}
+
   updateIndex(index){
-    this.index = index;
-    this.indexTextNode.nodeValue = index;
+      this.index = index;
+      //Change footer value
+      this.indexTextNode.nodeValue = index+1;
   }
 
   applyDragBehaviorToElement(elem) {
     //apply drag behavior
+    elem.onmousedown = (e) => this.onMouseDown(e);
     elem.ondragstart = (e) => this.onDragStart(e);
     elem.ondragover = (e) => this.onDragOver(e);
     elem.ondragend = (e) => this.onDragEnd(e);
   }
 
+  onMouseDown(e) {
+    this.source = e.target;
+    this.dispatchDragEvent("mouseDown", this.index)
+  }
+
   onDragStart(e) {
     this.source = e.target;
-    this.source.classList.add("selected");
+    this.source.classList.add("dragged");
     document
       .querySelectorAll(".content-container")
       .forEach((contentContainer) => {
@@ -74,7 +107,7 @@ export default class Tile {
           contentContainer.style.pointerEvents = "auto";
         }
       });
-    this.source.classList.remove("selected");
+    this.source.classList.remove("dragged");
 		this.dispatchDragEvent("dragEnd");
   }
 
@@ -96,6 +129,16 @@ export default class Tile {
         index: index,
       },
     });
+    this.dom.parentElement.dispatchEvent(event);
+  }
+
+  dispatchActionEvent(eventType, index = null){
+    const event = new CustomEvent("actionEvent", {
+      detail:{
+        eventType: eventType,
+        index: index,
+      }
+    })
     this.dom.parentElement.dispatchEvent(event);
   }
 }

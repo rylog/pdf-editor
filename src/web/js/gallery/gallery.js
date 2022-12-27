@@ -14,7 +14,6 @@ export default class Gallery {
 			let canvas = document.createElement('canvas');
 			this.renderPageOnCanvas(page, canvas);
       let tile = new Tile(canvas);
-      console.log(page)
       tile.pdfInfo = {
         id: pdf.pdfId,
         originalPageIndex: page._pageIndex
